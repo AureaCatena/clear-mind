@@ -12,7 +12,7 @@ const Header = () => {
             </p>
             <div className='flex flex-col md:flex-row items-center gap-3 text-white text-sm font-light'>
                 <img className='w-28' src={assets.group_profiles} alt="" />
-                <p>
+                <p className='text-lg'>
                   Because finding yourself starts with finding the right therapist.
                 </p>
             </div>

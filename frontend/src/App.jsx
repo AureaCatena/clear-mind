@@ -7,7 +7,6 @@ import Login from './pages/Login'
 import MyAppointments from './pages/MyAppointments'
 import MyProfile from './pages/MyProfile'
 import Therapists from './pages/Therapists'
-import Appointments from './pages/Appointment'
 import Appointment from './pages/Appointment'
 import Navbar from './components/Navbar'
 
