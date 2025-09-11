@@ -10,6 +10,9 @@ export default {
         'primary':"#5465FF",
         'periw':"#BFD7FF",
         
+      },
+      gridTemplateColumns:{
+        'auto': 'repeat(auto-fill, minmax(200px, 1fr))'
       }
     },
   },
