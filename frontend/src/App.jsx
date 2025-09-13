@@ -9,6 +9,7 @@ import MyProfile from './pages/MyProfile'
 import Therapists from './pages/Therapists'
 import Appointment from './pages/Appointment'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
         <Route path='/therapists' element={<Therapists />} />
         <Route path='/therapists/:speciality' element={<Therapists />} />
       </Routes>
+      <Footer/> 
     </div>
   )
 }
