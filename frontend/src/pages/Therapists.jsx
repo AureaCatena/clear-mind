@@ -24,15 +24,15 @@ const Therapists = () => {
 
   return (
     <div>
-        <p>Browse through the therapy by speciality.</p>
-        <div>
-          <div> 
-            <p>Psychoanalysis</p>
-            <p>Gestalt Therapy</p>
-            <p>Cognitive Behavioral Therapy (CBT)</p>
-            <p>Family Therapy</p>
-            <p>Psychotherapy</p>
-            <p>Art Therapy</p>
+        <p className='text-gray-600'>Browse through the therapy by speciality.</p>
+        <div className='flex flex-col sm:flex-row items-start gap-5 mt-5'>
+          <div className='flex flex-col gap-4 text-sm text-gray-600'> 
+            <p onClick={()=> speciality === 'Psychoanalysis' ? navigate('/therapists') : navigate ('/therapists/Psychoanalysis')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Psychoanalysis" ? "bg-indigo-100 text-black" : ""}`} >Psychoanalysis</p>
+            <p onClick={()=> speciality === 'Gestalt Therapy' ? navigate('/therapists') : navigate ('/therapists/Gestalt Therapy')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Gestalt Therapy" ? "bg-indigo-100  text-black" : ""}`} >Gestalt Therapy</p>
+            <p onClick={()=> speciality === 'Cognitive Behavioral Therapy (CBT)' ? navigate('/therapists') : navigate ('/therapists/Cognitive Behavioral Therapy (CBT)')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Cognitive Behavioral Therapy (CBT)" ? "bg-indigo-100 text-black" : ""}`} >Cognitive Behavioral Therapy (CBT)</p>
+            <p onClick={()=> speciality === 'Family Therapy' ? navigate('/therapists') : navigate ('/therapists/Family Therapy')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Family Therapy" ? "bg-indigo-100 text-black" : ""}`} >Family Therapy</p>
+            <p onClick={()=> speciality === 'Psychotherapy' ? navigate('/therapists') : navigate ('/therapists/Psychotherapy')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Psychotherapy" ? "bg-indigo-100 text-black" : ""}`} >Psychotherapy</p>
+            <p onClick={()=> speciality === 'Art Therapy' ? navigate('/therapists') : navigate ('/therapists/Art Therapy')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Art Therapy" ? "bg-indigo-100 text-black" : ""}`} >Art Therapy</p>
           </div>
           <div className='w-full grid grid-cols-auto gap-4 gap-y-6'>
             {
