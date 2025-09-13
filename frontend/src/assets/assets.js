@@ -60,7 +60,7 @@ export const assets = {
 
 export const specialityData = [
     {
-        speciality: 'General physician',
+        speciality: 'Psychoanalysis',
         image: General_physician
     },
     {
@@ -90,14 +90,14 @@ export const therapists = [
         _id: 'doc1',
         name: 'Dr. Richard James',
         image: doc1,
-        speciality: 'General physician',
-        degree: 'MBBS',
-        experience: '4 Years',
-        about: 'Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.',
-        fees: 50,
+        speciality: 'Psychoanalysis',
+        degree: 'PhD in Clinical Psychology',
+        experience: '10 Years',
+        about: 'Dr. James specializes in psychoanalytic therapy, helping clients uncover unconscious patterns and gain deeper self-understanding.',
+        fees: 80,
         address: {
             line1: '17th Cross, Richmond',
-            line2: 'Circle, Ring Road, London'
+            line2: 'London'
         }
     },
     {
