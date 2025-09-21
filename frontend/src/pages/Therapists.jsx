@@ -6,6 +6,8 @@ const Therapists = () => {
 
   const { speciality } = useParams()
   const [filterTherapist, setFilterTherapist] = useState([])
+  const [showFilter, setShowFilter] = useState(false)
+
   const navigate = useNavigate()
   
   const { therapists } = useContext(AppContext)
@@ -26,9 +28,10 @@ const Therapists = () => {
     <div>
         <p className='text-gray-600'>Browse through the therapy by speciality.</p>
         <div className='flex flex-col sm:flex-row items-start gap-5 mt-5'>
-          <div className='flex flex-col gap-4 text-sm text-gray-600'> 
+          <button className={`py-1 px-3 border rounded text-sm transition-all sm:hidden ${showFilter ? 'bg-primary text-white' : '' }`} onClick={()=>setShowFilter(prev => !prev)}>Filters</button>
+          <div className={`flex-col gap-4 text-sm text-gray-600 ${showFilter ? 'flex' : 'hidden sm:flex'}`}> 
             <p onClick={()=> speciality === 'Psychoanalysis' ? navigate('/therapists') : navigate ('/therapists/Psychoanalysis')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Psychoanalysis" ? "bg-indigo-100 text-black" : ""}`} >Psychoanalysis</p>
-            <p onClick={()=> speciality === 'Gestalt Therapy' ? navigate('/therapists') : navigate ('/therapists/Gestalt Therapy')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Gestalt Therapy" ? "bg-indigo-100  text-black" : ""}`} >Gestalt Therapy</p>
+            <p onClick={()=> speciality === 'Gestalt Therapy' ? navigate('/therapists') : navigate ('/therapists/Gestalt Therapy')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Gestalt Therapy" ? "bg-indigo-100 text-black" : ""}`} >Gestalt Therapy</p>
             <p onClick={()=> speciality === 'Cognitive Behavioral Therapy (CBT)' ? navigate('/therapists') : navigate ('/therapists/Cognitive Behavioral Therapy (CBT)')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Cognitive Behavioral Therapy (CBT)" ? "bg-indigo-100 text-black" : ""}`} >Cognitive Behavioral Therapy (CBT)</p>
             <p onClick={()=> speciality === 'Family Therapy' ? navigate('/therapists') : navigate ('/therapists/Family Therapy')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Family Therapy" ? "bg-indigo-100 text-black" : ""}`} >Family Therapy</p>
             <p onClick={()=> speciality === 'Psychotherapy' ? navigate('/therapists') : navigate ('/therapists/Psychotherapy')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Psychotherapy" ? "bg-indigo-100 text-black" : ""}`} >Psychotherapy</p>
@@ -40,7 +43,7 @@ const Therapists = () => {
                 <div onClick={()=>navigate(`/appointment/${item._id}`)} className='border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500' key={index}>
                   <img className='bg-blue-50' src={item.image} alt=""/>
                   <div className='p-4'>
-                      <div className='flex items-center gap-2 text-cm text-center text-green-500'>
+                      <div className='flex items-center gap-2 text-sm text-center text-green-500'>
                           <p className='w-2 h-2 bg-green-500 rounded-full'></p><p>Available</p>
                       </div>
                       <p className='text-gray-900 text-lg font-medium'>{item.name}</p>
