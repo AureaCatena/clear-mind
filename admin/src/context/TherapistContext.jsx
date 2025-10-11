@@ -16,4 +16,4 @@ const TherapistContextProvider = (props) => {
     )
 }
 
-export default TherapistContextProvider;
+export default TherapistContextProvider
