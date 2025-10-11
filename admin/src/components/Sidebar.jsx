@@ -1,0 +1,42 @@
+import React, { useContext } from 'react'
+import { AdminContext } from '../context/AdminContext'
+import { NavLink } from 'react-router-dom'
+import { assets } from '../assets/assets'
+
+const Sidebar = () => {
+
+    const {aToken} = useContext(AdminContext)
+
+  return (
+    <div>
+        {
+            aToken && <ul>
+             
+             <NavLink to={'/dashboard'}>
+                <img src={assets.home_icon} alt="" />
+                <p>Dashboard</p>
+             </NavLink>
+
+              <NavLink to={'/all-appointments'}>
+                <img src={assets.appointment_icon} alt="" />
+                <p>Appointments</p>
+             </NavLink>
+
+              <NavLink to={'/add-therapist'}>
+                <img src={assets.add_icon} alt="" />
+                <p>Add Therapist</p>
+             </NavLink>
+
+              <NavLink to={'/therapists-list'}>
+                <img src={assets.people_icon} alt="" />
+                <p>Therapist List</p>
+             </NavLink>
+
+            </ul>
+        }
+
+    </div>
+  )
+}
+
+export default Sidebar
