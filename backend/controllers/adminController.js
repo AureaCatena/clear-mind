@@ -81,4 +81,17 @@ const loginAdmin = async (req, res) => {
        
 }
 
-export { addTherapist , loginAdmin}
+// API to get all thersapists list for admin panel
+
+const allTherapists = async (req,res) => {
+    try {
+        const therapists = await therapistModel.find({}).select('-password')
+        res.json({success:true, therapists})
+        
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+
+export { addTherapist , loginAdmin, allTherapists }
