@@ -8,12 +8,10 @@ const AppContextProvider = (props)=>{
 
     const currencySymbol = '£'
     const backendUrl = import.meta.env.VITE_BACKEND_URL
-    const [therapists, setTherapists] = useState([])
 
-    const value = {
-        therapists, 
-        currencySymbol
-    }
+    const [therapists, setTherapists] = useState([])
+    const [token, setToken] = useState('')
+
 
     const getTherapistsData = async () => {
         try {
@@ -27,6 +25,13 @@ const AppContextProvider = (props)=>{
             console.log(error)
             toast.error(error.message)
         }
+    }
+
+    const value = {
+        therapists, 
+        currencySymbol,
+        token, setToken,
+
     }
 
     useEffect(()=>{
