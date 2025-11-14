@@ -30,12 +30,12 @@ import doc12 from './doc12.png'
 import doc13 from './doc13.png'
 import doc14 from './doc14.png'
 import doc15 from './doc15.png'
-import Dermatologist from './Dermatologist.svg'
-import Gastroenterologist from './Gastroenterologist.svg'
-import General_physician from './General_physician.svg'
-import Gynecologist from './Gynecologist.svg'
-import Neurologist from './Neurologist.svg'
-import Pediatricians from './Pediatricians.svg'
+import Cognitive from './Cognitive.svg'
+import ArtTherapy from './ArtTherapy.svg'
+import Psychoanalysis from './Psychoanalysis.svg'
+import Gestalt from './Gestalt.svg'
+import Psychotherapy from './Psychotherapy.svg'
+import FamilyTherapy from './FamilyTherapy.svg'
 
 
 export const assets = {
@@ -56,32 +56,33 @@ export const assets = {
     upload_icon,
     stripe_logo,
     razorpay_logo
+
 }
 
 export const specialityData = [
     {
         speciality: 'Psychoanalysis',
-        image: General_physician
+        image: Psychoanalysis
     },
     {
         speciality: 'Gestalt Therapy',
-        image: Gynecologist
+        image: Gestalt
     },
     {
         speciality: 'Cognitive Behavioral Therapy (CBT)',
-        image: Dermatologist
+        image: Cognitive
     },
     {
         speciality: 'Family Therapy',
-        image: Pediatricians
+        image: FamilyTherapy
     },
     {
         speciality: 'Psychotherapy',
-        image: Neurologist
+        image: Psychotherapy
     },
     {
         speciality: 'Art Therapy',
-        image: Gastroenterologist
+        image: ArtTherapy
     },
 ]
 

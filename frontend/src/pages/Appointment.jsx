@@ -1,21 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
 import { assets } from '../assets/assets'
 import ReatedTherapists from '../components/RelatedTherapists'
-
-
-
+import { toast } from 'react-toastify'
+import axios from 'axios'
 
 
 const Appointment = () => {
 
   const {therId} = useParams()
-  const {therapists, currencySymbol} = useContext(AppContext)
+  const {therapists, currencySymbol, backendUrl, token, getTherapistData} = useContext(AppContext)
   const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 
+  const navigate = useNavigate()
+
   const [therapistInfo, setTherapistInfo] = useState(null)
-  const [therapistSlots, setTherapistSlots] = useState([])
+  const [therSlots, setTherSlots] = useState([])
   const [slotIndex, setSlotIndex] = useState(0)
   const [slotTime, setSlotTime] = useState('')
 
@@ -25,7 +26,7 @@ const Appointment = () => {
   }
 
   const getAvailableSlots = async () => {
-    setTherapistSlots([])
+    setTherSlots([])
 
     // getting current date
     let today = new Date()
@@ -54,20 +55,67 @@ const Appointment = () => {
       while(currentDate < endTime) {
         let formattedTime = currentDate.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})
 
+        let day = currentDate.getDate()
+        let month = currentDate.getMonth() + 1
+        let year = currentDate.getFullYear()
+
+        const slotDate = day + "_" + month + "_" + year
+        const slotTime = formattedTime
+
+        //const isSlotAvailable = therapistInfo.slots_booked[slotDate] && therapistInfo.slots_booked[slotDate].includes(slotTime) ? false : true
+        const isSlotAvailable =
+          therapistInfo &&
+          therapistInfo.slots_booked &&
+          therapistInfo.slots_booked[slotDate] &&
+          therapistInfo.slots_booked[slotDate].includes(slotTime)
+            ? false      
+            : true;
+
+        if (isSlotAvailable) {
+
           // add slot to array
-        timeSlots.push({
-          dateTime: new Date(currentDate),
-          time: formattedTime
-        })
+          timeSlots.push({
+            dateTime: new Date(currentDate),
+            time: formattedTime
+          })
+        }
 
         // Increment current time by 30 minutes
         currentDate.setMinutes(currentDate.getMinutes() + 30)
       }
 
-      setTherapistSlots(prev => ([...prev, timeSlots]))
+      setTherSlots(prev => ([...prev, timeSlots]))
     }
   }
 
+  const bookAppointment = async () => {
+    if (!token) {
+      toast.warn("Please login to book appointment")
+      return navigate('/login')
+      }
+    try {
+      const date = therSlots[slotIndex][0].dateTime
+      let day = date.getDate()
+      let month = date.getMonth() + 1
+      let year = date.getFullYear()
+
+      const slotDate = day + "_" + month + "_" + year 
+      const { data } = await axios.post(backendUrl + '/api/user/book-appointment', {therId, slotDate, slotTime}, {headers:{token}})
+      if (data.success) {
+        toast.success(data.message)
+        getTherapistData()
+        navigate('/my-appointments')
+      } else {
+        toast.error(data.message)
+      }
+
+
+    } catch (error) {
+      console.log(error)
+      toast.error(error.message)
+
+    }
+  }
 
   useEffect(()=>{
     fetchTherapistInfo()
@@ -78,9 +126,9 @@ const Appointment = () => {
   },[therapistInfo])
 
   useEffect(() => {
-    console.log(therapistSlots);
+    console.log(therSlots);
 
-  }, [therapistSlots])
+  }, [therSlots])
 
   return therapistInfo && (
     <div>
@@ -119,7 +167,7 @@ const Appointment = () => {
         <p>Booking Slots</p>
         <div className='flex gap-3 items-center w-full overflow-x-scroll mt-4'>
           {
-            therapistSlots.length && therapistSlots.map((item,index)=>(
+            therSlots.length && therSlots.map((item,index)=>(
               <div onClick={()=> setSlotIndex(index)} className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${slotIndex === index ? 'bg-primary text-white' : 'border border-gray-200'}`} key={index}>
                 <p>{item[0] && daysOfWeek[item[0].dateTime.getDay()]}</p>
                 <p>{item[0] && item[0].dateTime.getDate()}</p>
@@ -129,13 +177,13 @@ const Appointment = () => {
         </div>
 
         <div className='flex items-center gap-3 w-full overflow-x-scroll mt-4'>
-          {therapistSlots.length && therapistSlots[slotIndex].map((item,index)=>(
+          {therSlots.length && therSlots[slotIndex].map((item,index)=>(
             <p onClick={()=>setSlotTime(item.time)} className={`text-sm font-light flex-shrink-0 px-5 py-2 rounded-full cursor-pointer ${item.time === slotTime ? 'bg-primary text-white' : 'text-gray-400 border border-gray-300'}`} key={index}>
               {item.time.toLowerCase()}
             </p>
           ))}
         </div>
-        <button className='bg-primary text-white text-sm font-light px-14 py-3 rounded-full my-6'>
+        <button onClick={bookAppointment} className='bg-primary text-white text-sm font-light px-14 py-3 rounded-full my-6'>
           Book an appointment
         </button>
       </div>
