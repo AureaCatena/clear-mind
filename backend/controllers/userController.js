@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 import userModel from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import { v2 as cloudinary } from 'cloudinary';
+import therapistModel from "../models/therapistModel.js";
+import appointmentModel from "../models/appointmentModel.js";
 // import bcrypt from 'bcryptjs';
 
 // API to register user
@@ -128,4 +130,69 @@ const updateProfile = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser, getProfile, updateProfile }
+//API to book appointment
+const bookAppointment = async (req, res) => {
+  try {
+    const {therId, slotDate, slotTime} = req.body
+    const userId = req.userId
+    const therData = await therapistModel.findById(therId).select('-password')
+    if (!therData.available) {
+      return res.json({ success: false, message: "Therapist not available" });
+    }
+
+    let slots_booked = therData.slots_booked
+    // checking for slots availability
+    if (slots_booked[slotDate]) {
+      if (slots_booked[slotDate].includes(slotTime)) {
+        return res.json({ success: false, message: "Slot not available" })
+      } else {
+        slots_booked[slotDate].push(slotTime)
+      }
+    } else {
+      slots_booked[slotDate] = []
+      slots_booked[slotDate].push(slotTime)
+    }
+
+    const userData = await userModel.findById(userId).select('-password')
+   
+    delete therData.slots_booked
+   
+    const appointmentData = {
+      userId,
+      therId,
+      userData,
+      therData,
+      amount: therData.fees,
+      slotTime,
+      slotDate,
+      date: Date.now(),
+    }
+    const newAppointment = new appointmentModel(appointmentData)
+    await newAppointment.save()
+
+    //save new slots data in therData
+    await therapistModel.findByIdAndUpdate(therId,{slots_booked})
+
+    res.json({ success: true, message: "Appointment booked successfully" })
+
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+}
+
+// API to get user appointments for frontend my-appointments page 
+const listAppointments = async (req, res) => {
+  try {
+    const userId = req.userId
+    const appointments = await appointmentModel.find({userId})
+
+    res.json({success: true, appointments})
+
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+}
+
+export { registerUser, loginUser, getProfile, updateProfile, bookAppointment, listAppointments };
