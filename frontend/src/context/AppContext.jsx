@@ -2,8 +2,6 @@ import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-
-
 export const AppContext = createContext()
 
 const AppContextProvider = (props)=>{
@@ -48,7 +46,7 @@ const AppContextProvider = (props)=>{
     }
 
     const value = {
-        therapists, getTherapistData,
+    therapists, getTherapistData,
         currencySymbol,
         token, setToken,
         backendUrl,
@@ -57,7 +55,7 @@ const AppContextProvider = (props)=>{
     }
 
     useEffect(()=>{
-        getTherapistData()
+    getTherapistData()
     }, []) 
 
     useEffect(()=>{
