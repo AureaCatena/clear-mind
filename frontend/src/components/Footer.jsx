@@ -8,7 +8,7 @@ const Footer = () => {
             {/* ---- Left section ---- */}
             <div>
                 <img className='mb-5 w-40' src={assets.logo} alt="" />
-                <p className='w-full md:w-2/3 text-grey-600 leading-6'>“Until you make the unconscious conscious, it will direct your life and you will call it fate.” – C.G. Jung</p>
+                <p className='w-full md:w-2/3 text-gray-600 leading-6'>“Until you make the unconscious conscious, it will direct your life and you will call it fate.” – C.G. Jung</p>
             </div>
 
             {/* ---- Center section ----- */}
