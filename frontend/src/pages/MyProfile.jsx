@@ -1,4 +1,4 @@
-import React, { use, useContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { AppContext } from '../context/AppContext'
 import { assets } from '../assets/assets' 
 import axios from 'axios'
@@ -61,7 +61,7 @@ const MyProfile = () => {
       {
         isEdit
           ? <input className='bg-gray-50 text-3xl font-medium max-w-60 mt-4' type="text" value={userData.name} onChange={e => setUserData(prev => ({ ...prev, name: e.target.value }))} />
-          : <p className='font-medium text=3xl text-netural-800 mt-4'>{userData.name}</p>
+          : <p className='font-medium text=3xl text-neutral-800 mt-4'>{userData.name}</p>
       }
 
       <hr className='bg-zinc-400 h-[1px] border-none' />

@@ -200,8 +200,7 @@ const listAppointments = async (req, res) => {
 const cancelAppointment = async (req, res) => {
   try {
 
-    const {appointmentId} = req.body
-    const userId = req.userId;
+    const {userId, appointmentId} = req.body
 
     const appointmentData = await appointmentModel.findById(appointmentId)
     
