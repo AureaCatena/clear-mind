@@ -3,6 +3,7 @@ import {assets} from '../assets/assets'
 import { AdminContext } from '../context/AdminContext'
 import axios from 'axios' 
 import { toast } from 'react-toastify'
+import { TherapistContext } from '../context/TherapistContext'
 
 const Login = () => {
 
@@ -11,6 +12,7 @@ const Login = () => {
     const [password,setPassword] = useState('') 
 
     const {setAToken,backendUrl} = useContext(AdminContext)
+    const {setTToken} = useContext(TherapistContext)
 
     const onSubmitHandler = async (event) => {
         event.preventDefault()
@@ -27,7 +29,15 @@ const Login = () => {
                 }
 
             } else {
-
+               
+                const {data} = await axios.post(backendUrl + '/api/therapist/login', {email, password})
+                if (data.success) {
+                    localStorage.setItem('tToken',data.token) 
+                    setTToken(data.token)
+                    console.log(data.token);
+                } else {
+                    toast.error(data.message)
+                } 
             }
 
         } catch (error) {

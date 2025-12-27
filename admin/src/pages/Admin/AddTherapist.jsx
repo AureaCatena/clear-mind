@@ -107,7 +107,7 @@ const AddTherapist = () => {
 
             <div className='flex-1 flex flex-col gap-1'>
               <p>Experience</p>
-              <select onChange={(e) => setExperience(e.target.value)} value={experience} className='border rounded px-3 py-2' name="" id="">
+              <select onChange={(e) => setExperience(e.target.value)} value={experience} className='border rounded px-3 py-2' name="" id="experience">
                 <option value="">Select experience</option>
                 <option value="1 Year">1 Year</option>
                 <option value="2 Years">2 Years</option>
@@ -137,7 +137,7 @@ const AddTherapist = () => {
           <div>
             <div className='flex-1 flex flex-col gap-1'>
               <p>Speciality</p>
-              <select onChange={(e)=> setSpeciality(e.target.value)} value={speciality} className='border rounded px-3 py-2' name="" id="">
+              <select onChange={(e)=> setSpeciality(e.target.value)} value={speciality} className='border rounded px-3 py-2' name="" id="speciality">
                 <option value="">Select speciality</option>
                 <option value="Psychoanalysis">Psychoanalysis</option>
                 <option value="Gestalt Therapy">Gestalt Therapy</option>
