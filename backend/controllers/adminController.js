@@ -4,6 +4,7 @@ import { v2 as cloudinary } from "cloudinary"
 import therapistModel from "../models/therapistModel.js"
 import jwt from "jsonwebtoken"
 import appointmentModel from "../models/appointmentModel.js"
+import userModel from "../models/userModel.js"
 
 
 // API for adding therapist
@@ -137,8 +138,33 @@ const appointmentCancel = async (req, res) => {
 
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: error.message });
+    res.json({ success: false, message: error.message })
   }
 }
 
-export { addTherapist , loginAdmin, allTherapists, appointmentAdmin, appointmentCancel}
+// API to get dashboard data for admin panel
+
+const adminDashboard = async (req,res) => {
+    try {
+       
+     const therapists = await therapistModel.find({})
+     const users = await userModel.find({})
+     const appointments = await appointmentModel.find({})
+
+     const dashData = {
+        therapists: therapists.length,
+        appointments: appointments.length,
+        clients: users.length,
+        latestAppointments: appointments.reverse().slice(0,5)
+     }
+
+     res.json({success:true, dashData})
+
+
+    } catch (error) {
+     console.log(error);
+     res.json({ success: false, message: error.message })   
+    }
+}
+
+export { addTherapist , loginAdmin, allTherapists, appointmentAdmin, appointmentCancel, adminDashboard }
