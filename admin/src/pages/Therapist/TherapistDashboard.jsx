@@ -1,8 +1,19 @@
 import react from "react";
 
 const TherapistDashboard = () => {
-    return (
-        <div>TherapistDashboard</div>
+    const {dashData, setDashData, getDashData} = useContext(TherapistContext)
+
+    useEffect(()=> {
+        if(tToken) {
+            getDashData()
+        }
+    
+    },[tToken])
+
+    return dashData && (
+        <div>
+
+        </div>
     )
 }
 
