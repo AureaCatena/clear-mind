@@ -73,4 +73,85 @@ const appointmentsTherapist = async (req, res) => {
   }
 }
 
-export { changeAvailability, therapistList, loginTherapist, appointmentsTherapist }
+// API to mark appointment completed for therapist panel
+const appointmentCompleted = async (req, res) => {
+  try{
+
+    const {therId, appointmentId} = req.body
+
+    const appointmentData = appoinmentModel.findById(appointmentId)
+
+    if (appointmentData && appointmentData.therId === docId) {
+        
+      await appointmentModel.findByIdAndUpdate(appointmentId, {isCompleted: true})
+      return res.json({success: true, message: 'Appointment Completed'})
+    } else {
+      return res.json({success: false, message: 'Mark Failed'})
+    }
+    } catch (error) {
+      console.log(error)
+      res.json({success:false, message:error.message})  
+  }
+}
+
+// API to cancel appointment for therapist panel
+const appointmentCancel = async (req, res) => {
+  try{
+
+    const {therId, appointmentId} = req.body
+
+    const appointmentData = appoinmentModel.findById(appointmentId)
+
+    if (appointmentData && appointmentData.therId === docId) {
+        
+      await appointmentModel.findByIdAndUpdate(appointmentId, {cancelled: true})
+      return res.json({success: true, message: 'Appointment Cancelled'})
+    } else {
+      return res.json({success: false, message: 'Cancellation Failed'})
+    }
+    } catch (error) {
+      console.log(error)
+      res.json({success:false, message:error.message})  
+  }
+}
+
+//API to get dashboard data  for therapist panel
+const therapistDashboard = async (req, res) => {
+  try {
+    const {therId} = req.body
+
+    const appointments = await appointmentModel.find({therId})
+
+      let earnings = 0
+
+      appointments.map((item)=>{
+        if (item.isCompleted || item.payment) {
+          earnings += item.amount
+        }
+      })
+
+      let patients = []
+
+      appointments.map(() => {
+        if (!patients.includes(item.userId)) {
+          patients.push(item.userId)
+        }
+      })
+
+      const dashData = {
+        earnings,
+        appointments: appointments.length,
+        patients: patients.length,
+        latestAppointments: appointments.reverse().slice(0,5)
+      }
+
+      res.json({success:true, dashData})
+
+
+  } catch (error) {
+    console.log(error)
+    res.json({success:false, message:error.message})  
+  }
+}
+
+export { changeAvailability, therapistList, loginTherapist, appointmentsTherapist, appointmentCompleted, appointmentCancel, therapistDashboard }

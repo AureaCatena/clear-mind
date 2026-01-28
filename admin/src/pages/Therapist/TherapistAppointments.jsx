@@ -5,7 +5,7 @@ import { assets } from "../../assets/assets";
 
 const TherapistAppointments = () => {
 
-    const { tToken, appointments, getAppointments } = useContext(TherapistContext)
+    const { tToken, appointments, getAppointments, completeAppointment, cancelAppointment } = useContext(TherapistContext)
 
     const {calculateAge, slotDateFormat, currency} = useContext(AppContext) 
 
@@ -48,10 +48,16 @@ const TherapistAppointments = () => {
                     <p className='max-sm:hidden'>{calculateAge(item.userData.dob)}</p>
                     <p>{slotDateFormat(item.slotDate)}, {item.slotTime}</p>
                     <p>{currency}{item.amount}</p>
-                    <div className='flex'>
-                        <img className='w-10 cursor-pointer' src={assets.cancel_icon} alt="" />
-                        <img className='w-10 cursor-pointer' src={assets.tick_icon} alt="" />
-                    </div> 
+                    {
+                    item.cancelled
+                    ? <p> Cancelled </p>
+                    : item.isCompleted
+                      ? <p> Completed </p>
+                      : <div className='flex'>
+                        <img onClick={()=>cancelAppointment(item._id)} className='w-10 cursor-pointer' src={assets.cancel_icon} alt="" />
+                        <img onClick={()=>completeAppointment(item._id)} className='w-10 cursor-pointer' src={assets.tick_icon} alt="" />
+                    </div>
+                    }
                    </div>
                  ) ) 
                 }
