@@ -74,14 +74,14 @@ const appointmentsTherapist = async (req, res) => {
 }
 
 // API to mark appointment completed for therapist panel
-const appointmentCompleted = async (req, res) => {
+const appointmentComplete = async (req, res) => {
   try{
 
     const {therId, appointmentId} = req.body
 
-    const appointmentData = appoinmentModel.findById(appointmentId)
+    const appointmentData = await appointmentModel.findById(appointmentId)
 
-    if (appointmentData && appointmentData.therId === docId) {
+    if (appointmentData && appointmentData.therId === therId) {
         
       await appointmentModel.findByIdAndUpdate(appointmentId, {isCompleted: true})
       return res.json({success: true, message: 'Appointment Completed'})
@@ -100,9 +100,9 @@ const appointmentCancel = async (req, res) => {
 
     const {therId, appointmentId} = req.body
 
-    const appointmentData = appoinmentModel.findById(appointmentId)
+    const appointmentData = await appointmentModel.findById(appointmentId)
 
-    if (appointmentData && appointmentData.therId === docId) {
+    if (appointmentData && appointmentData.therId === therId) {
         
       await appointmentModel.findByIdAndUpdate(appointmentId, {cancelled: true})
       return res.json({success: true, message: 'Appointment Cancelled'})
@@ -132,7 +132,7 @@ const therapistDashboard = async (req, res) => {
 
       let patients = []
 
-      appointments.map(() => {
+      appointments.map((item) => {
         if (!patients.includes(item.userId)) {
           patients.push(item.userId)
         }
@@ -154,4 +154,37 @@ const therapistDashboard = async (req, res) => {
   }
 }
 
-export { changeAvailability, therapistList, loginTherapist, appointmentsTherapist, appointmentCompleted, appointmentCancel, therapistDashboard }
+// API to get therapist appointments for Therapist panel
+const therapistProfile = async (req, res) => {
+
+  try {
+    
+    const {therId} = req.body
+    const profileData = await therapistModel.findById(therId).select(' -password') 
+
+    res.json({success:true, profileData})
+
+  } catch (error) {
+   console.log(error)
+   res.json({success:false, message:error.message}) 
+  }
+}
+
+// API to update therapist profile data from Therapist panel
+const updateTherapistProfile = async (req, res) => {
+
+  try {
+    const { therId, fees, address, availble } = req.body
+
+    await therapistModel.findByIdAndUpdate(therId, {fees, address, availble})
+
+    res.json({success:true, message:'Profile Updated'})
+
+  } catch (error) {
+   console.log(error)
+   res.json({success:false, message:error.message})
+  }
+
+}
+
+export { changeAvailability, therapistList, loginTherapist, appointmentsTherapist, appointmentComplete, appointmentCancel, therapistDashboard, therapistProfile, updateTherapistProfile }
