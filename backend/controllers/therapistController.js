@@ -174,9 +174,9 @@ const therapistProfile = async (req, res) => {
 const updateTherapistProfile = async (req, res) => {
 
   try {
-    const { therId, fees, address, availble } = req.body
+    const { therId, fees, address, available } = req.body
 
-    await therapistModel.findByIdAndUpdate(therId, {fees, address, availble})
+    await therapistModel.findByIdAndUpdate(therId, {fees, address, available})
 
     res.json({success:true, message:'Profile Updated'})
 
